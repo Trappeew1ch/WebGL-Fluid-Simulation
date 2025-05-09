@@ -1,54 +1,37 @@
-/*
-MIT License
-
-Copyright (c) 2017 Pavel Dobryakov
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-*/
-
 'use strict';
 
 // Mobile promo section
+document.addEventListener('DOMContentLoaded', () => {
+    const promoPopup = document.getElementsByClassName('promo')[0];
+    const promoPopupClose = document.getElementsByClassName('promo-close')[0];
+    const appleLink = document.getElementById('apple_link');
+    const googleLink = document.getElementById('google_link');
 
-const promoPopup = document.getElementsByClassName('promo')[0];
-const promoPopupClose = document.getElementsByClassName('promo-close')[0];
+    if (promoPopup && promoPopupClose) {
+        if (isMobile()) {
+            setTimeout(() => {
+                promoPopup.style.display = 'table';
+            }, 20000);
+        }
 
-if (isMobile()) {
-    setTimeout(() => {
-        promoPopup.style.display = 'table';
-    }, 20000);
-}
+        promoPopupClose.addEventListener('click', e => {
+            promoPopup.style.display = 'none';
+        });
+    }
 
-promoPopupClose.addEventListener('click', e => {
-    promoPopup.style.display = 'none';
-});
+    if (appleLink) {
+        appleLink.addEventListener('click', e => {
+            ga('send', 'event', 'link promo', 'app');
+            window.open('https://apps.apple.com/us/app/fluid-simulation/id1443124993');
+        });
+    }
 
-const appleLink = document.getElementById('apple_link');
-appleLink.addEventListener('click', e => {
-    ga('send', 'event', 'link promo', 'app');
-    window.open('https://apps.apple.com/us/app/fluid-simulation/id1443124993');
-});
-
-const googleLink = document.getElementById('google_link');
-googleLink.addEventListener('click', e => {
-    ga('send', 'event', 'link promo', 'app');
-    window.open('https://play.google.com/store/apps/details?id=games.paveldogreat.fluidsimfree');
+    if (googleLink) {
+        googleLink.addEventListener('click', e => {
+            ga('send', 'event', 'link promo', 'app');
+            window.open('https://play.google.com/store/apps/details?id=games.paveldogreat.fluidsimfree');
+        });
+    }
 });
 
 // Simulation section
@@ -772,7 +755,7 @@ const advectionShader = compileShader(gl.FRAGMENT_SHADER, `
     void main () {
     #ifdef MANUAL_FILTERING
         vec2 coord = vUv - dt * bilerp(uVelocity, vUv, texelSize).xy * texelSize;
-        vec4 result = bilerp(uSource, coord, dyeTexelSize);
+        vec4 result = bilerp(u Source, coord, dyeTexelSize);
     #else
         vec2 coord = vUv - dt * texture2D(uVelocity, vUv).xy * texelSize;
         vec4 result = texture2D(uSource, coord);
