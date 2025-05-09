@@ -2,122 +2,58 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="Cache-Control" content="no-cache">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
         <title>Uma AI Fluid Text</title>
+        <script type="text/javascript" src="dat.gui.min.js"></script>
         <style>
             * {
                 margin: 0;
                 padding: 0;
                 box-sizing: border-box;
+                user-select: none;
+            }
+
+            html, body {
+                overflow: hidden;
+                background-color: #000;
             }
 
             body {
-                overflow: hidden;
-                background-color: #000;
+                margin: 0;
+                position: fixed;
+                width: 100%;
+                height: 100%;
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                min-height: 100vh;
             }
 
-            #text-canvas {
-                position: absolute;
-                mix-blend-mode: screen;
-            }
-
-            .text-container {
-                position: relative;
-                display: flex;
-                justify-content: center;
-                align-items: center;
+            canvas {
+                width: 100%;
+                height: 100%;
             }
 
             .text {
-                font-family: Arial, sans-serif;
-                font-size: 150px;
-                font-weight: bold;
+                position: absolute;
+                z-index: 1;
+                font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+                font-size: 20vw;
+                font-weight: 900;
+                letter-spacing: 0.1em;
                 color: #1a1a1a;
-                text-shadow: 0 0 10px rgba(150, 150, 150, 0.5);
                 -webkit-text-stroke: 1px rgba(150, 150, 150, 0.3);
+                mix-blend-mode: overlay;
+            }
+
+            .dg {
+                display: none !important;
             }
         </style>
     </head>
     <body>
-        <div class="text-container">
-            <div class="text">Uma AI</div>
-            <canvas id="text-canvas"></canvas>
-        </div>
-        <script>
-            const canvas = document.getElementById('text-canvas');
-            const ctx = canvas.getContext('2d');
-            let config = {
-                SIM_RESOLUTION: 128,
-                DYE_RESOLUTION: 512,
-                DENSITY_DISSIPATION: 0.97,
-                VELOCITY_DISSIPATION: 0.98,
-                PRESSURE_DISSIPATION: 0.8,
-                PRESSURE_ITERATIONS: 20,
-                CURL: 30,
-                SPLAT_RADIUS: 0.5,
-                SHADING: true,
-                COLORFUL: true,
-                PAUSED: false,
-                BACK_COLOR: { r: 0, g: 0, b: 0 },
-                TRANSPARENT: true,
-                BLOOM: true,
-                BLOOM_ITERATIONS: 8,
-                BLOOM_RESOLUTION: 256,
-                BLOOM_INTENSITY: 0.8,
-                BLOOM_THRESHOLD: 0.6,
-                BLOOM_SOFT_KNEE: 0.7
-            };
-
-            function resizeCanvas() {
-                const text = document.querySelector('.text');
-                const rect = text.getBoundingClientRect();
-                canvas.width = rect.width;
-                canvas.height = rect.height;
-                canvas.style.left = rect.left + 'px';
-                canvas.style.top = rect.top + 'px';
-            }
-
-            window.addEventListener('resize', resizeCanvas);
-            resizeCanvas();
-
-            let pointerX = 0;
-            let pointerY = 0;
-            let prevPointerX = 0;
-            let prevPointerY = 0;
-
-            const drawParticles = () => {
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                
-                if (Math.abs(pointerX - prevPointerX) > 0 || Math.abs(pointerY - prevPointerY) > 0) {
-                    for (let i = 0; i < 5; i++) {
-                        const x = pointerX + Math.random() * 20 - 10;
-                        const y = pointerY + Math.random() * 20 - 10;
-                        
-                        ctx.beginPath();
-                        ctx.arc(x, y, 2, 0, Math.PI * 2);
-                        ctx.fillStyle = `hsla(${Math.random() * 360}, 100%, 70%, 0.8)`;
-                        ctx.fill();
-                    }
-                }
-                
-                prevPointerX = pointerX;
-                prevPointerY = pointerY;
-                
-                requestAnimationFrame(drawParticles);
-            };
-
-            canvas.addEventListener('mousemove', (e) => {
-                const rect = canvas.getBoundingClientRect();
-                pointerX = e.clientX - rect.left;
-                pointerY = e.clientY - rect.top;
-            });
-
-            drawParticles();
-        </script>
+        <div class="text">Uma AI</div>
+        <canvas></canvas>
+        <script src="./script.js"></script>
     </body>
 </html>
