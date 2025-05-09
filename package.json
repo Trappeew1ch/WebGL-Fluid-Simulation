@@ -1,0 +1,19 @@
+{
+  "name": "webgl-fluid-simulation",
+  "version": "1.0.0",
+  "description": "WebGL fluid simulation that works in mobile browsers",
+  "main": "script.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "dat.gui": "^0.7.9"
+  },
+  "devDependencies": {
+    "vite": "^5.0.12"
+  },
+  "author": "Pavel Dobryakov",
+  "license": "MIT"
+}
